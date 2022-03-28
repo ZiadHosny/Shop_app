@@ -1,17 +1,27 @@
+// ignore_for_file: use_key_in_widget_constructors, must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants/constants.dart';
 
 class MyTextField extends StatelessWidget {
+
   final ValueChanged<String> onChanged;
   final IconData icon;
   final String hintText;
-  Icon? suffixIcon;
+  
+  TextEditingController? controller;
+  IconButton? suffixIcon;
+  TextInputType? keyboardType;
+  bool obscureText;
 
   MyTextField({
     required this.onChanged,
     required this.icon,
     required this.hintText,
+    this.controller,
     this.suffixIcon,
+    this.keyboardType,
+    this.obscureText = false,
   });
 
   @override
@@ -27,6 +37,9 @@ class MyTextField extends StatelessWidget {
       child: TextField(
         onChanged: onChanged,
         cursorColor: MAIN_COLOR,
+        keyboardType: keyboardType,
+        obscureText: obscureText,
+        controller: controller,
         decoration: InputDecoration(
           icon: Icon(
             icon,
@@ -35,7 +48,6 @@ class MyTextField extends StatelessWidget {
           hintText: hintText,
           border: InputBorder.none,
           suffixIcon: suffixIcon,
-          suffixIconColor: MAIN_COLOR,
         ),
       ),
     );
