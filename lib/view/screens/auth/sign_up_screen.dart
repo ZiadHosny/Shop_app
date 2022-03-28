@@ -10,6 +10,12 @@ import 'package:shop_app/view/widgets/rounded_button.dart';
 
 class SignUpScreen extends StatelessWidget {
   final authController = Get.find<AuthController>();
+  final TextEditingController name = TextEditingController();
+  final TextEditingController phone = TextEditingController();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController password = TextEditingController();
+
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -17,83 +23,118 @@ class SignUpScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
+          child: SizedBox(
             width: double.infinity,
             height: maxHeight(context),
-            padding: const EdgeInsets.only(top: 50),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'SIGN UP',
-                      style: TextStyle(
-                        color: MAIN_COLOR,
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
+            child: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  SizedBox(height: 40),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'SIGN UP',
+                        style: TextStyle(
+                          color: MAIN_COLOR,
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: maxHeight(context) / 5,
-                      child: Image.asset('assets/images/Done.png'),
-                    ),
-                  ],
-                ),
-                MyTextField(
-                  onChanged: (value) {},
-                  icon: Icons.person,
-                  hintText: 'Your Name',
-                  keyboardType: TextInputType.name,
-                ),
-                MyTextField(
-                  onChanged: (value) {},
-                  icon: Icons.lock,
-                  hintText: 'Phone',
-                  keyboardType: TextInputType.phone,
-                ),
-                MyTextField(
-                  onChanged: (value) {},
-                  icon: Icons.email,
-                  hintText: 'Your Email',
-                  keyboardType: TextInputType.emailAddress,
-                ),
-                GetBuilder<AuthController>(
-                  builder: (_) => MyTextField(
-                    onChanged: (value) {},
+                      SizedBox(
+                        height: maxHeight(context) / 5,
+                        child: Image.asset('assets/images/Done.png'),
+                      ),
+                    ],
+                  ),
+                  MyTextFormField(
+                    validator: (value) {
+                      if (!RegExp(validationName).hasMatch(value!) ||
+                          value.length < 2) {
+                        return 'Invalid Name!';
+                      }
+                      return null;
+                    },
+                    controller: name,
+                    icon: Icons.person,
+                    hintText: 'Your Name',
+                    keyboardType: TextInputType.name,
+                  ),
+                  MyTextFormField(
+                    controller: phone,
                     icon: Icons.lock,
-                    hintText: 'Password',
-                    obscureText: authController.isVisible ? true : false,
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        authController.isVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                      ),
-                      color: MAIN_COLOR,
-                      onPressed: () {
-                        authController.toggleVisibility();
+                    hintText: 'Phone',
+                    keyboardType: TextInputType.phone,
+                  ),
+                  MyTextFormField(
+                    validator: (value) {
+                      if (!RegExp(validationEmail).hasMatch(value!)) {
+                        return 'Invalid Email!';
+                      }
+                      return null;
+                    },
+                    controller: email,
+                    icon: Icons.email,
+                    hintText: 'Your Email',
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  GetBuilder<AuthController>(
+                    builder: (_) => MyTextFormField(
+                      validator: (value) {
+                        if (value!.length < 6) {
+                          return 'Password is too short!';
+                        }
+                        return null;
                       },
+                      controller: password,
+                      icon: Icons.lock,
+                      hintText: 'Password',
+                      obscureText: authController.isVisible ? true : false,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          authController.isVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        color: MAIN_COLOR,
+                        onPressed: () {
+                          authController.toggleVisibility();
+                        },
+                      ),
                     ),
                   ),
-                ),
-                RoundedButton(
-                  text: 'SIGN UP',
-                  press: () {},
-                ),
-                const Text('Or'),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("Already have an Account?"),
-                    TextButton(
-                        onPressed: () {
-                          Get.offNamed(Routes.loginScreen);
+                  GetBuilder<AuthController>(
+                    builder: (_) {
+                      return RoundedButton(
+                        text: 'SIGN UP',
+                        press: () {
+                          if (formKey.currentState!.validate()) {
+                            authController.registration(
+                              name.text.trim(),
+                              phone.text.trim(),
+                              email.text.trim(),
+                              password.text,
+                            );
+                          }
                         },
-                        child: const Text('Log In')),
-                  ],
-                ),
-              ],
+                      );
+                    },
+                  ),
+                  const Text('Or'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Already have an Account?"),
+                      TextButton(
+                          onPressed: () {
+                            Get.offNamed(Routes.loginScreen);
+                          },
+                          child: const Text('Log In')),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -39,8 +39,13 @@ class ForgetPasswordScreen extends StatelessWidget {
                 'assets/images/Forgot_password.png',
                 fit: BoxFit.cover,
               ),
-              MyTextField(
-                onChanged: (value) {},
+              MyTextFormField(
+                validator: (value) {
+                  if (!RegExp(validationEmail).hasMatch(value!)) {
+                    return 'Invalid Email!';
+                  }
+                  return null;
+                },
                 icon: Icons.email,
                 hintText: 'Your Email',
                 keyboardType: TextInputType.emailAddress,

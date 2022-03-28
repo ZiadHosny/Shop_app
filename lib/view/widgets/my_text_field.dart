@@ -3,26 +3,25 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants/constants.dart';
 
-class MyTextField extends StatelessWidget {
-
-  final ValueChanged<String> onChanged;
+class MyTextFormField extends StatelessWidget {
+  final String? Function(String?)? validator;
   final IconData icon;
   final String hintText;
-  
   TextEditingController? controller;
   IconButton? suffixIcon;
   TextInputType? keyboardType;
   bool obscureText;
+  bool autofocus;
 
-  MyTextField({
-    required this.onChanged,
-    required this.icon,
-    required this.hintText,
-    this.controller,
-    this.suffixIcon,
-    this.keyboardType,
-    this.obscureText = false,
-  });
+  MyTextFormField(
+      {this.validator,
+      required this.icon,
+      required this.hintText,
+      this.controller,
+      this.suffixIcon,
+      this.keyboardType,
+      this.obscureText = false,
+      this.autofocus = false});
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +33,13 @@ class MyTextField extends StatelessWidget {
         color: kPrimaryLightColor,
         borderRadius: BorderRadius.circular(30),
       ),
-      child: TextField(
-        onChanged: onChanged,
+      child: TextFormField(
         cursorColor: MAIN_COLOR,
         keyboardType: keyboardType,
         obscureText: obscureText,
         controller: controller,
+        validator: validator,
+        autofocus: autofocus,
         decoration: InputDecoration(
           icon: Icon(
             icon,

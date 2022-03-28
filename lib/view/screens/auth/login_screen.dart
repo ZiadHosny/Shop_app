@@ -10,10 +10,12 @@ import 'package:shop_app/view/widgets/rounded_button.dart';
 
 class LoginScreen extends StatelessWidget {
   final authController = Get.find<AuthController>();
+  final formKey = GlobalKey<FormState>();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -47,16 +49,28 @@ class LoginScreen extends StatelessWidget {
                   key: formKey,
                   child: Column(
                     children: [
-                      MyTextField(
-                        onChanged: (value) {},
+                      MyTextFormField(
+                        validator: (value) {
+                          if (!RegExp(validationEmail).hasMatch(value!)) {
+                            return 'Invalid Email!';
+                          }
+                          return null;
+                        },
+                        controller: email,
                         icon: Icons.person,
                         hintText: 'Your Email',
                         keyboardType: TextInputType.emailAddress,
                       ),
                       GetBuilder<AuthController>(
                         builder: (_) {
-                          return MyTextField(
-                            onChanged: (value) {},
+                          return MyTextFormField(
+                            validator: (value) {
+                              if (value!.length < 6) {
+                                return 'Password is too short!';
+                              }
+                              return null;
+                            },
+                            controller: password,
                             icon: Icons.lock,
                             hintText: 'Password',
                             obscureText:
@@ -75,7 +89,20 @@ class LoginScreen extends StatelessWidget {
                           );
                         },
                       ),
-                      RoundedButton(text: 'LOGIN', press: () {}),
+                      GetBuilder<AuthController>(
+                        builder: (_) {
+                          return RoundedButton(
+                              text: 'LOGIN',
+                              press: () {
+                                if (formKey.currentState!.validate()) {
+                                  authController.signIn(
+                                    email.text.trim(),
+                                    password.text,
+                                  );
+                                }
+                              });
+                        },
+                      ),
                       Container(
                         alignment: Alignment.centerRight,
                         width: maxWidth(context) * 0.8,

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:shop_app/logic/bindings/auth_binding.dart';
+import 'package:shop_app/view/screens/main_screen.dart';
 import '../view/screens/auth/forget_password_screen.dart';
 import '../view/screens/auth/login_screen.dart';
 import '../view/screens/auth/sign_up_screen.dart';
@@ -26,6 +27,10 @@ class AppRoute {
     GetPage(
       name: Routes.forgetPasswordScreen,
       page: () => ForgetPasswordScreen(),
+    ),
+    GetPage(
+      name: Routes.mainScreen,
+      page: () =>  MainScreen(),
     ),
   ];
 }

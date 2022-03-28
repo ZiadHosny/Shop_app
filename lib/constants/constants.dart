@@ -7,6 +7,10 @@ const Color MAIN_COLOR = Color.fromRGBO(108, 99, 255, 1);
 const kPrimaryColor = Color(0xFF6F35A5);
 const kPrimaryLightColor = Color(0xFFF1E6FF);
 
-double maxHeight(context) => MediaQuery.of(context).size.height;
+String validationEmail =
+    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+String validationPhone = r'^(?:[+0]9)?[0-9]{10}$';
+String validationName = r'^[a-z A-Z]+$';
 
+double maxHeight(context) => MediaQuery.of(context).size.height;
 double maxWidth(context) => MediaQuery.of(context).size.width;
