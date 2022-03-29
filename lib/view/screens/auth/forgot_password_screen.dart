@@ -3,11 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shop_app/constants/constants.dart';
+import 'package:shop_app/logic/controllers/auth_controller.dart';
 import 'package:shop_app/routes/routes.dart';
 import 'package:shop_app/view/widgets/my_text_field.dart';
 import 'package:shop_app/view/widgets/rounded_button.dart';
 
-class ForgetPasswordScreen extends StatelessWidget {
+class ForgotPasswordScreen extends StatelessWidget {
+  final authController = Get.find<AuthController>();
+  final TextEditingController email = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,11 +50,20 @@ class ForgetPasswordScreen extends StatelessWidget {
                   }
                   return null;
                 },
+                controller: email,
                 icon: Icons.email,
                 hintText: 'Your Email',
                 keyboardType: TextInputType.emailAddress,
               ),
-              RoundedButton(text: 'SEND', press: () {}),
+              GetBuilder<AuthController>(
+                builder: (_) {
+                  return RoundedButton(
+                      text: 'SEND',
+                      press: () {
+                        authController.resetPassword(email.text.trim());
+                      });
+                },
+              ),
               const Text('Or'),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

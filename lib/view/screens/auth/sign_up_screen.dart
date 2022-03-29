@@ -30,7 +30,7 @@ class SignUpScreen extends StatelessWidget {
               key: formKey,
               child: Column(
                 children: [
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -121,7 +121,6 @@ class SignUpScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  const Text('Or'),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

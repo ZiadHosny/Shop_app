@@ -4,9 +4,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:shop_app/constants/constants.dart';
-import 'package:shop_app/firebase_options.dart';
-import 'package:shop_app/routes/routes.dart';
+
+import './constants/constants.dart';
+import './firebase_options.dart';
+import './routes/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

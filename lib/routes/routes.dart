@@ -1,13 +1,16 @@
 import 'package:get/get.dart';
-import 'package:shop_app/logic/bindings/auth_binding.dart';
+import 'package:shop_app/logic/bindings/buttom_nav_binding.dart';
 import 'package:shop_app/view/screens/main_screen.dart';
-import '../view/screens/auth/forget_password_screen.dart';
+
+import '../logic/bindings/auth_binding.dart';
+import '../logic/bindings/product_binding.dart';
+import '../view/screens/auth/forgot_password_screen.dart';
 import '../view/screens/auth/login_screen.dart';
 import '../view/screens/auth/sign_up_screen.dart';
 import '../view/screens/welcome_screen.dart';
 
 class AppRoute {
-  static const initialRoute = Routes.welcomeScreen;
+  static const initialRoute = Routes.mainScreen;
 
   static final routes = [
     GetPage(
@@ -26,11 +29,16 @@ class AppRoute {
     ),
     GetPage(
       name: Routes.forgetPasswordScreen,
-      page: () => ForgetPasswordScreen(),
+      page: () => ForgotPasswordScreen(),
+      binding: AuthBinding(),
     ),
     GetPage(
       name: Routes.mainScreen,
-      page: () =>  MainScreen(),
+      page: () => MainScreen(),
+      bindings: [
+        ButtomNavBinding(),
+        ProductBinding(),
+      ],
     ),
   ];
 }

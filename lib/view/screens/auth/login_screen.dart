@@ -103,22 +103,34 @@ class LoginScreen extends StatelessWidget {
                               });
                         },
                       ),
-                      Container(
-                        alignment: Alignment.centerRight,
-                        width: maxWidth(context) * 0.8,
-                        child: TextButton(
-                          child: const Text(
-                            'Forgot password?',
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GetBuilder<AuthController>(
+                            builder: (_) {
+                              return IconButton(
+                                onPressed: () {
+                                  authController.signInWithGoogle();
+                                },
+                                icon: Image.asset(
+                                  'assets/images/google.png',
+                                ),
+                              );
+                            },
                           ),
-                          onPressed: () {
-                            Get.toNamed(Routes.forgetPasswordScreen);
-                          },
-                        ),
+                          TextButton(
+                            child: const Text(
+                              'Forgot password?',
+                              style: TextStyle(
+                                color: Colors.grey,
+                              ),
+                            ),
+                            onPressed: () {
+                              Get.toNamed(Routes.forgetPasswordScreen);
+                            },
+                          ),
+                        ],
                       ),
-                      const Text('Or'),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
