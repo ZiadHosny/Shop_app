@@ -10,7 +10,7 @@ class AuthController extends GetxController {
   bool isVisible = true;
   FirebaseAuth auth = FirebaseAuth.instance;
   late UserCredential userCredential;
-  GoogleSignInAccount? googleUser;
+  GoogleSignIn googleUser = GoogleSignIn();
 
   void toggleVisibility() {
     isVisible = !isVisible;
@@ -85,7 +85,7 @@ class AuthController extends GetxController {
 
   void signInWithGoogle() async {
     try {
-      googleUser = await GoogleSignIn().signIn();
+      await googleUser.signIn();
       update();
       Get.offNamed(Routes.mainScreen);
     } catch (e) {
@@ -117,6 +117,24 @@ class AuthController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
         colorText: Colors.white,
       );
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        e.toString(),
+        backgroundColor: const Color.fromARGB(255, 180, 14, 2),
+        snackPosition: SnackPosition.BOTTOM,
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  void signOut() async {
+    try {
+      await auth.signOut();
+      googleUser.signOut();
+
+      update();
+      Get.offNamed(Routes.loginScreen);
     } catch (e) {
       Get.snackbar(
         'Error',

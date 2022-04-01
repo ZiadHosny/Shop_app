@@ -1,42 +1,31 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants/constants.dart';
 import 'package:shop_app/view/widgets/categories_items.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: maxHeight(context) / 3,
+          height: maxHeight(context) / 3.6,
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 20),
           decoration: BoxDecoration(
             color: MAIN_COLOR,
             borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(40),
-                bottomLeft: Radius.circular(40)),
+              bottomRight: Radius.circular(40),
+              bottomLeft: Radius.circular(40),
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: const Text(
-                  'Shop App',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
               SizedBox(
-                height: 25,
+                height: 10,
               ),
               Text(
                 'Find Your',

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
-import 'package:shop_app/logic/bindings/buttom_nav_binding.dart';
-import 'package:shop_app/view/screens/main_screen.dart';
+import '../logic/bindings/buttom_nav_binding.dart';
+import '../view/screens/cart_screen.dart';
+import '../view/screens/main_screen.dart';
 
 import '../logic/bindings/auth_binding.dart';
 import '../logic/bindings/product_binding.dart';
@@ -34,9 +35,18 @@ class AppRoute {
     ),
     GetPage(
       name: Routes.mainScreen,
+      
       page: () => MainScreen(),
       bindings: [
         ButtomNavBinding(),
+        ProductBinding(),
+        AuthBinding(),
+      ],
+    ),
+    GetPage(
+      name: Routes.cartScreen,
+      page: () => CartScreen(),
+      bindings: [
         ProductBinding(),
       ],
     ),
@@ -49,4 +59,5 @@ class Routes {
   static const loginScreen = '/LoginScreen';
   static const forgetPasswordScreen = '/forgetPasswordScreen';
   static const mainScreen = '/mainScreen';
+  static const cartScreen = '/cartScreen';
 }

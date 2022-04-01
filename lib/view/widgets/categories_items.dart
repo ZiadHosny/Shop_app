@@ -4,17 +4,16 @@ import 'package:flutter/material.dart';
 
 import 'package:shop_app/constants/constants.dart';
 import 'package:get/get.dart';
+import 'package:shop_app/logic/controllers/cart_controller.dart';
 import 'package:shop_app/logic/controllers/product_controller.dart';
 import 'package:shop_app/models/product.dart';
 
 class CategoryItems extends StatelessWidget {
   final productController = Get.find<ProductController>();
+  final cartController = Get.find<CartController>();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: MAIN_COLOR,
-    );
     return Obx(
       () {
         return productController.isLoading.value
@@ -23,9 +22,8 @@ class CategoryItems extends StatelessWidget {
                   color: MAIN_COLOR,
                 ),
               )
-            : Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            : Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: GridView.builder(
                   physics: const BouncingScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -48,26 +46,82 @@ class CategoryItems extends StatelessWidget {
   Widget CategoryItem(context, Product product) {
     return GridTile(
       header: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(right: 10),
+        child: Row(
+          children: [
+            Obx(
+              () {
+                return IconButton(
+                  onPressed: () {
+                    productController.toggleFav(product.id);
+                  },
+                  icon: Icon(
+                    productController.isFav[product.id]!
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                  ),
+                  color: MAIN_COLOR,
+                );
+              },
+            ),
+            Expanded(
+              child: Text(
+                product.category,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                cartController.addProductToCart(product);
+              },
+              icon: const Icon(
+                Icons.shopping_cart_sharp,
+                color: MAIN_COLOR,
+              ),
+            ),
+          ],
+        ),
+      ),
+      footer: Container(
+        padding: const EdgeInsets.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Icon(
-              Icons.favorite_border,
-              color: MAIN_COLOR,
-            ),
-            Text(
-              product.category,
-            ),
-            const Icon(
-              Icons.add,
-              color: MAIN_COLOR,
+            Text('\$${product.price}'),
+            Container(
+              width: 45,
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: MAIN_COLOR,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    product.rating.rate.toString(),
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  const Icon(
+                    Icons.star,
+                    color: Colors.white,
+                    size: 10,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       ),
       child: Container(
-        child: Image.network(product.image),
+        padding: const EdgeInsets.all(30),
+        child: Image.network(
+          product.image,
+          fit: BoxFit.fitWidth,
+        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Colors.white,

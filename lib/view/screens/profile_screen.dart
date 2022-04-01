@@ -5,6 +5,8 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Center(
+      child: TextButton(onPressed: () {}, child: const Text('Sign Out')),
+    );
   }
 }
